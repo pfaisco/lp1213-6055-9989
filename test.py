@@ -1,2 +1,4 @@
 #
 #teste.py
+
+print "YEAH!!"
