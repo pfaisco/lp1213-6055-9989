@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import sqlite3
-
+from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Boolean, DateTime, Time, Float, ForeignKey
+from sqlalchemy.orm import mapper, create_session, sessionmaker, relationship, backref
+from sqlalchemy.ext.declarative import declarative_base
 #def cria_Base_Dado():
 #pass
 
@@ -28,3 +30,23 @@ def createDB(nome_bd = 'inscricoes.db'):
 	pass
 
 createDB('pedro.db')	
+
+dbEngine = create_engine('mysql://root:admin@192.168.233.128/simoc_testing', echo = True)
+Base = declarative_base(bind = dbEngine)
+
+
+
+class Establecimento(Base):
+'''
+
+'''
+__tablename__='Establecimento'
+id = Column('id', Integer, 	primary_key=True)
+nomeEstablecimmento
+def __init__(self, nomeEstablecimmento):
+	Column
+
+
+
+
+
