@@ -1,52 +1,67 @@
 # -*- coding: utf-8 -*-
-import sqlite3
-from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Boolean, DateTime, Time, Float, ForeignKey
-from sqlalchemy.orm import mapper, create_session, sessionmaker, relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
-#def cria_Base_Dado():
-#pass
+from sqlalchemy import create_engine
+from sqlalchemy import Column, Float, String, ForeignKey
+
+engine = create_engine('sqlite:///./basedado.db', echo=True)
+Base = declarative_base(bind=engine)
 
 
+class Estabelecimento_Ensino(Base):
+	__tablename__ = 'Estabelecimento_Ensino'
+	nome_Estabelecimento = Column('nome_Estabelecimento', String, primary_key = True)
+	
+	def __init__(self, nomeUniversidade):
+		self.nome_Estabelecimento = nomeUniversidade
 
-def createDB(nome_bd = 'inscricoes.db'):
-	file = open(nome_bd , 'w')
-	file.write('')
-	file.close()
-	conn = sqlite3.connect(nome_bd)
-	cursor = conn.cursor()
-	cursor.execute('''CREATE TABLE IF NOT EXISTS Cursos (
-		NomeCurso TEXT PRIMARY KEY, 
-		Universidade TEXT, 
-		Faculdade TEXT, 
-		Nivel TEXT)''')
-	cursor.execute('''CREATE TABLE IF NOT EXISTS Contagens (
-		AnoLectivo TEXT, 
-		NomeCurso TEXT,
-		NumeroAlunos INTEGER, 
-		FOREIGN KEY(NomeCurso) REFERENCES Cursos(NomeCurso), 
-		PRIMARY KEY(AnoLectivo, NomeCurso))''')
-	conn.commit()
-	cursor.close()
-	pass
+class Unidade_Organica(Base):
+	__tablename__='Unidade_Organica'
+	nome_Unidade = Column('nome_Unidade', String, primary_key=True)
+	nome_Estabelecimento = Column( String, ForeignKey('Estabelecimento_Ensino.nome_Estabelecimento'))
 
-createDB('pedro.db')	
+	def __init__(self, nome_Unidade, nome_Estabelecimento):
+		self.nome_Unidade = nome_Unidade
+		self.nome_Estabelecimento = nome_Estabelecimento
 
-dbEngine = create_engine('mysql://root:admin@192.168.233.128/simoc_testing', echo = True)
-Base = declarative_base(bind = dbEngine)
+class Curso(Base):
+	__tablename__='Curso'
+	nome_Curso = Column('nome_Curso', String, primary_key= True)
+	nome_Unidade = Column( String, ForeignKey('Unidade_Organica.nome_Unidade'))
+	nivel_curso = Column( 'nivel_curso', String)
+	def __init__(self, nome_Curso, nome_Unidade, nivel_curso):
+		self.nome_Curso = nome_Curso
+		self.nome_Unidade = nome_Unidade
+		self.nivel_curso = nivel_curso
 
+class Ano(Base):
+	__tablename__='Ano'
+	nome_Curso = Column('nome_Curso',String, primary_key = True)
+	ano = Column('ano', String, primary_key = True)
+	numero_alunos = Column('numero_alunos', Float)
 
+	def __init__(self, nome_Curso, numero_alunos, ano ):
+		self.nome_Curso = nome_Curso
+		self.ano = ano
+		self.numero_alunos = numero_alunos
 
-class Establecimento(Base):
-'''
-
-'''
-__tablename__='Establecimento'
-id = Column('id', Integer, 	primary_key=True)
-nomeEstablecimmento
-def __init__(self, nomeEstablecimmento):
-	Column
-
-
+Base.metadata.create_all()
 
 
+def insertBD_Curso(nome_Estabelecimento, nome_Unidade, nome_Curso, nivel_curso):
+	
+	from sqlalchemy.orm import sessionmaker
+	Session = sessionmaker(bind=engine)
+	s = Session()
+	s.add(Estabelecimento_Ensino(nome_Estabelecimento))
+	s.add(Unidade_Organica(nome_Unidade, nome_Estabelecimento))
+	s.add(Curso(nome_Curso, nome_Unidade, nivel_curso))
+	try:
+		s.commit()
+	except IntegrityError:
+		print 'ERROR'
+		s.abort()
 
+	
+
+def com():
+	s.commit()
