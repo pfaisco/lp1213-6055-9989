@@ -36,7 +36,7 @@ class Curso(Base):
 	nome_Unidade = Column('nome_Unidade', String)
 	nome_Estabelecimento = Column('nome_Estabelecimento', String)
 	nivel_curso = Column( 'nivel_curso', String)
-	ano = relationship("Ano", backref="Curso")
+	
 
 	def __init__(self, nome_Curso, nome_Unidade, nivel_curso, nome_Estabelecimento):
 		self.nome_Curso = nome_Curso
@@ -51,26 +51,27 @@ class Ano(Base):
 	'''
 	__tablename__='Ano'
 	id=Column(Integer, primary_key=True)
-	id_Curso = Column(Integer, ForeignKey('Curso.id'))
 	ano = Column('ano', String)
 	numero_alunos = Column('numero_alunos', Float)
-
-	def __init__(self, id_Curso, numero_alunos, ano ):
-		self.id_Curso = id_Curso
-		self.ano = ano
+	curso = relationship("Curso", backref=backref("Ano"))
+	id_Curso = Column(Integer, ForeignKey('Curso.id'))
+	
+	def __init__(self, numero_alunos, ano_c ):
+		self.ano = ano_c
 		self.numero_alunos = numero_alunos
 
 Base.metadata.create_all()
 
 
-def insertBD_Curso(nome_Estabelecimento, nome_Unidade, nome_Curso, nivel_curso):
+def insertBD_Curso(nome_Estabelecimento, nome_Unidade, nome_Curso, nivel_curso, l_anos):
 
 	from sqlalchemy.orm import sessionmaker
 	Session = sessionmaker(bind = engine)
 	s = Session()
 	
 	c = Curso(nome_Curso = nome_Curso, nome_Unidade = nome_Unidade, nivel_curso = nivel_curso, nome_Estabelecimento= nome_Estabelecimento)
-	
+	for a in l_anos:
+		c.Ano.extend([Ano(ano_c=a[0], numero_alunos=a[1])])
 	s.add(c)
 	
 	try:
@@ -78,20 +79,15 @@ def insertBD_Curso(nome_Estabelecimento, nome_Unidade, nome_Curso, nivel_curso):
 	except:
 		print 'ERROR'
 
-def insert_Ano(nome_Curso, ano, numero_alunos):
+
+def printBD():
 	from sqlalchemy.orm import sessionmaker
 	Session = sessionmaker(bind = engine)
 	s = Session()
-	id_C= s.query(Curso.id ).filter(Curso.nome_Curso == nome_Curso).first()[0]
 
-	print id_C
-	ano = Ano(id_Curso=id_C, ano=ano, numero_alunos=numero_alunos)
-	s.add(ano)
-	s.commit()
-	
-		
+	print s.query(Curso).join(Ano)
 
 	
 
 
-
+printBD()
