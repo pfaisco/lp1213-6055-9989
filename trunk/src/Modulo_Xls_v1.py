@@ -2,7 +2,14 @@
 from xlrd import open_workbook, cellname, empty_cell
 #import Modulo_BD as bd
 import Modulo_BD as bd
+
+
 def read_xls():
+	'''
+	
+
+	'''
+
 	wb = open_workbook('Inscritos_2010-2011 (formato Excel xls).xls')
 	s = wb.sheet_by_index(30)
 	uni=''
@@ -36,6 +43,9 @@ def read_xls():
 					lista_anos.append(anos)
 			bd.insertBD_Curso(nome_Estabelecimento=unicode(uni, 'utf8'), nome_Unidade=unicode(fac,'utf8'), nome_Curso=unicode(cur,'utf8'), nivel_curso=unicode(niv, 'utf8'), l_anos= lista_anos)	
 			lista_anos=[]
-read_xls()
+
+
+if __name__ == '__main__':
+	read_xls()
 
 
