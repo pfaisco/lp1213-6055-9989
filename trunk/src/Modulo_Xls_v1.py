@@ -38,8 +38,13 @@ def read_xls():
 			for c in (7, 10, 13, 16, 19 ,22, 25, 28, 31, 34, 37, 40, 43, 47, 50, 53):
 				#print dic[c] + ' - ' + str(s.cell_value(row_index, c))
 				value =s.cell_value(row_index, c)
+				#valores nao numericos nao sao adicionados a db
 				if isinstance(value, float):
 					anos=(dic[c], value)
+					lista_anos.append(anos)
+				else:
+					z = 0.0
+					anos=(dic[c], z)
 					lista_anos.append(anos)
 			bd.insertBD_Curso(nome_Estabelecimento=unicode(uni, 'utf8'), nome_Unidade=unicode(fac,'utf8'), nome_Curso=unicode(cur,'utf8'), nivel_curso=unicode(niv, 'utf8'), l_anos= lista_anos)	
 			lista_anos=[]

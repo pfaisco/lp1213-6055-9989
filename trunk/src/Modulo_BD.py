@@ -33,16 +33,18 @@ class Curso(Base):
 	nome_Curso = Column('nome_Curso', String)
 	nome_Unidade = Column('nome_Unidade', String)
 	nome_Estabelecimento = Column('nome_Estabelecimento', String)
-	nivel_curso = Column( 'nivel_curso', String)
+	nivel_Curso = Column( 'nivel_Curso', String)
 	
 
 	def __init__(self, nome_Curso, nome_Unidade, nivel_curso, nome_Estabelecimento):
 		self.nome_Curso = nome_Curso
 		self.nome_Unidade = nome_Unidade
 		self.nome_Estabelecimento = nome_Estabelecimento
-		self.nivel_curso = nivel_curso
+		self.nivel_Curso = nivel_curso
+	
 	def __repr__(self):
-		return self.id
+		r = "Curso: {0} \nUnidade: {1} \nEstabelecimento {2} \nNivel {3}".format(self.nome_Curso.encode('utf-8'), self.nome_Unidade.encode('utf-8'), self.nome_Estabelecimento.encode('utf-8'), self.nivel_Curso.encode('utf-8'))
+		return r
 
 class Ano(Base):
 	'''
@@ -59,6 +61,11 @@ class Ano(Base):
 		self.ano = ano_c
 		self.numero_alunos = numero_alunos
 
+	def __repr__(self):
+		return 'ano : {0} -> {1}'.format(self.ano, self.numero_alunos)
+
+	
+		
 
 def insertBD_Curso(nome_Estabelecimento, nome_Unidade, nome_Curso, nivel_curso, l_anos):
 	s = create_session()
@@ -76,7 +83,7 @@ def insertBD_Curso(nome_Estabelecimento, nome_Unidade, nome_Curso, nivel_curso, 
 def create_session():
 	from sqlalchemy.orm import sessionmaker
 	
-	engine = create_engine('sqlite:///./basedado.db', echo = True)
+	engine = create_engine('sqlite:///./basedado.db', echo = False)
 
 	Session = sessionmaker(bind = engine)
 	s = Session()
@@ -97,17 +104,39 @@ def qnt_alunos():
 
 	"""
 	s = create_session()
-	l = s.query(Curso, Ano).join(Ano)
-	for y in l:
+	c = s.query(Curso)
+	
+	for y in c:
+		total = 0
 		print y
-		#print y.Ano[0].ano
-		
-#nomeBD = 'sqlite:///./basedado.db'
-#engine = create_engine(nomeBD, echo = True)
-#Base = declarative_base(bind = engine)
-#Base.metadata.create_all()
-#print 'DONE!!!'
+		x = s.query(Ano).filter(Ano.id_Curso == y.id).all()
+		for a in x:
+			print a
+			total += a.numero_alunos
+		print 'Total: {0}'.format(total)
+		print '\n'
+def nivel():
+	"""
+
+	"""
+	s = create_session()
+	c = s.query(Curso.nivel_Curso)
+	
+	for y in c:		
+		print y
+
+
+# if __name__ == '__main__':				
+# 	nomeBD = 'sqlite:///./basedado.db'
+# 	engine = create_engine(nomeBD, echo = True)
+	# Base = declarative_base(bind = engine)
+Base.metadata.create_all()
+print 'DONE!!!'
 	#Base.metadata.create_all()
 
 	#printBD()
 
+'''
+tirar o echo nas query
+e modificar o create bd para um metodo # if __name__ == '__main__':
+'''

@@ -13,3 +13,4 @@ import Modulo_BD as bd
 
 if __name__ == '__main__':
 	bd.qnt_alunos()
+	bd.nivel()
