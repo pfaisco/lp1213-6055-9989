@@ -4,13 +4,15 @@ from sqlalchemy import create_engine
 from sqlalchemy import Column, Float, String, ForeignKey, Integer
 from sqlalchemy.orm import relationship, backref, query
 
+engine = create_engine('sqlite:///./basedado.db', echo = True)
+Base = declarative_base(bind = engine)
 
 def criaMotor(self, nome='basedado.db'):
 	'''
 	nome: nome do ficheiro da base dados
 	cria Motor da base de dados para ligar e criar as tabelas e as seçoes
 	'''
-	if nome.endswith('.db') :
+	if nome.endswith('.db'):
 		nome.join('.db')
 		pass
 
@@ -21,9 +23,7 @@ def criaMotor(self, nome='basedado.db'):
 
 
 
-nomeBD = 'sqlite:///./basedado.db'
-engine = create_engine(nomeBD, echo = True)
-Base = declarative_base(bind = engine)
+
 class Curso(Base):
 	'''
 
@@ -61,7 +61,7 @@ class Ano(Base):
 
 
 def insertBD_Curso(nome_Estabelecimento, nome_Unidade, nome_Curso, nivel_curso, l_anos):
-	self.create_session()
+	s = create_session()
 	c = Curso(nome_Curso = nome_Curso, nome_Unidade = nome_Unidade, nivel_curso = nivel_curso, nome_Estabelecimento= nome_Estabelecimento)
 	for a in l_anos:
 		c.Ano.extend([Ano(ano_c=a[0], numero_alunos=a[1])])
@@ -75,6 +75,9 @@ def insertBD_Curso(nome_Estabelecimento, nome_Unidade, nome_Curso, nivel_curso, 
 
 def create_session():
 	from sqlalchemy.orm import sessionmaker
+	
+	engine = create_engine('sqlite:///./basedado.db', echo = True)
+
 	Session = sessionmaker(bind = engine)
 	s = Session()
 	return s
@@ -89,10 +92,26 @@ def query_nome_cursos():
 	for y in l:
 		print y.nome_Curso 
 
-if __name__ == '__main__':
+def qnt_alunos():
+	"""
+
+	"""
+	s = create_session()
+	l = s.query(Ano).join(Curso).sum()
+	for y in l:
+		print y.nome_Curso
+		#print y.Ano[0].ano
+		
+#nomeBD = 'sqlite:///./basedado.db'
+#engine = create_engine(nomeBD, echo = True)
+#Base = declarative_base(bind = engine)
+#Base.metadata.create_all()
+#print 'DONE!!!'
 	#Base.metadata.create_all()
-	#Base.metadata.create_all()
 
-	printBD()
+	#printBD()
+"""
+	Portas 2a 3a
+	junto a bancada VIP
 
-
+"""

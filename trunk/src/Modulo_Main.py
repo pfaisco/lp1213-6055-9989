@@ -8,6 +8,8 @@
 
 
 '''
-import Modulo_Xls_v1 as xls, Modulo_BD as bd
+import Modulo_Xls_v1 as xls
+import Modulo_BD as bd
 
 if __name__ == '__main__':
+	bd.qnt_alunos()

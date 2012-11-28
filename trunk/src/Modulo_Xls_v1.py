@@ -34,7 +34,7 @@ def read_xls():
 					pass
 				if col_index==2:
 					niv=s.cell_value(row_index,2).encode('utf-8')
-		if cur.find('Computadores') > 0 or cur.find('Informática') > 0 :	
+		if cur.find('Computadores') > 0 and cur.find('Informática') > 0 :	
 			for c in (7, 10, 13, 16, 19 ,22, 25, 28, 31, 34, 37, 40, 43, 47, 50, 53):
 				#print dic[c] + ' - ' + str(s.cell_value(row_index, c))
 				value =s.cell_value(row_index, c)
