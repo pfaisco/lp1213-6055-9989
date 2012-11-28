@@ -97,9 +97,9 @@ def qnt_alunos():
 
 	"""
 	s = create_session()
-	l = s.query(Ano).join(Curso).sum()
+	l = s.query(Curso, Ano).join(Ano)
 	for y in l:
-		print y.nome_Curso
+		print y
 		#print y.Ano[0].ano
 		
 #nomeBD = 'sqlite:///./basedado.db'
@@ -110,8 +110,4 @@ def qnt_alunos():
 	#Base.metadata.create_all()
 
 	#printBD()
-"""
-	Portas 2a 3a
-	junto a bancada VIP
 
-"""
