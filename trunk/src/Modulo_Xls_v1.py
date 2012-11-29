@@ -3,6 +3,40 @@ from xlrd import open_workbook, cellname, empty_cell
 #import Modulo_BD as bd
 import Modulo_BD as bd
 
+COL_ANO_95_96 = 7
+COL_ANO_96_97 = 10
+COL_ANO_97_98 = 13
+COL_ANO_98_99 = 16
+COL_ANO_99_00 = 19
+COL_ANO_00_01 = 22
+COL_ANO_01_02 = 25
+COL_ANO_02_03 = 28
+COL_ANO_03_04 = 31
+COL_ANO_04_05 = 34
+COL_ANO_05_06 = 37
+COL_ANO_06_07 = 40
+COL_ANO_07_08 = 43
+COL_ANO_08_09 = 47
+COL_ANO_09_10 = 50
+COL_ANO_10_11 = 53
+
+LIST_COL_ANOS = [COL_ANO_95_96,
+				COL_ANO_96_97,
+				COL_ANO_97_98,
+				COL_ANO_98_99,
+				COL_ANO_99_00,
+				COL_ANO_00_01,
+				COL_ANO_01_02,
+				COL_ANO_02_03,
+				COL_ANO_03_04,
+				COL_ANO_04_05,
+				COL_ANO_05_06,
+				COL_ANO_06_07,
+				COL_ANO_07_08,
+				COL_ANO_08_09,
+				COL_ANO_09_10,
+				COL_ANO_10_11]
+
 
 def read_xls():
 	'''
@@ -35,7 +69,7 @@ def read_xls():
 				if col_index==2:
 					niv=s.cell_value(row_index,2).encode('utf-8')
 		if cur.find('Computadores') > 0 and cur.find('Informática') > 0 :	
-			for c in (7, 10, 13, 16, 19 ,22, 25, 28, 31, 34, 37, 40, 43, 47, 50, 53):
+			for c in (LIST_COL_ANOS):
 				#print dic[c] + ' - ' + str(s.cell_value(row_index, c))
 				value =s.cell_value(row_index, c)
 				#valores nao numericos nao sao adicionados a db
