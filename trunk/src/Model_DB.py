@@ -3,20 +3,19 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy import Column, Float, String, ForeignKey, Integer
 from sqlalchemy.orm import relationship, backref
-			
-
 
 class modelDB(object):
 	"""
 
 	"""
+	
 	def __init__(self, name = 'sqlite:///./basedados.db'):
 		"""
 
 		"""
 		self.engine = create_engine(name, echo = True)
 		self.Base = declarative_base(bind = self.engine)
-		self.Base.metadata.create_all()
+		
 		
 m = modelDB()
 Base = m.Base
@@ -32,7 +31,6 @@ class Curso(Base):
 	name_Estabelecimento = Column('name_Estabelecimento', String)
 	nivel_Curso = Column( 'nivel_Curso', String)
 	
-
 	def __init__(self, name_Curso, name_Unidade, nivel_curso, name_Estabelecimento):
 		"""
 
@@ -42,7 +40,6 @@ class Curso(Base):
 		self.name_Estabelecimento = name_Estabelecimento
 		self.nivel_Curso = nivel_curso
 	
-
 class Ano(Base):
 	"""
 
@@ -63,4 +60,3 @@ class Ano(Base):
 
 if __name__ == '__main__':
 	m.Base.metadata.create_all()
-

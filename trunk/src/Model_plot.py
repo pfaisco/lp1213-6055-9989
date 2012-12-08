@@ -4,7 +4,7 @@ import matplotlib.ticker
 """
 
 """
-class Model_Plot(Object):
+class Model_Plot():
 	"""
 
 	"""
@@ -16,6 +16,10 @@ class Model_Plot(Object):
 		self.y_list = y_list
 		self.title = title
 
+class Controller_Plot(Model_Plot):
+	"""
+
+	"""
 	def plot_data(self):
 		"""
 
@@ -25,4 +29,3 @@ class Model_Plot(Object):
 		pylab.title(self.title, fontsize=20)
 		pylab.xlabel('Anos', fontsize=20)
 		pylab.show()
-

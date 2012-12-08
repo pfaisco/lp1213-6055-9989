@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
+class Model_Xls(object):
+	"""
 
-
-class Model_Xls():
-	
-
-	
-	
-	def __init__(self):
+	"""
+	def __init__(self, file_name = "./Inscritos_2010-2011 (formato Excel xls).xls"):
 		"""
 
 		"""
@@ -43,16 +40,9 @@ class Model_Xls():
 			self.COL_YEAR_09_10:'2009/10', 
 			self.COL_YEAR_10_11:'2010/11'
 		}
-		self.universidade=''
-		self.faculdade=''
-		self.nivel=''
-		self.curso=''
-
-
-	def get_dic(self):
-		return self.Dic_Year
-
-
-
-
-
+		self.file_name = file_name
+		self.sheet = 30
+		self.sheet = self.open_Book()
+		self.l_major_data = []
+		self.l_years_major = []
+		self.uni, self.fac, self.niv = '', '', ''

@@ -3,23 +3,19 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy import Float, String, Integer, distinct, func
 from sqlalchemy.orm import query, sessionmaker
-from Modulo_BD import Curso, Ano, modelDB
+from Model_DB import Curso, Ano, modelDB
+import os
 
-class Controller_DB():
+class Controller_DB(modelDB):
+	
+	def create_db(self):
+		os.system('python Model_DB.py')
 
-	def __init__(self, name = './basedados.db'):
-		'''
-
-		'''
-		# db_file = open(name, 'w')
-		# db_file.close()
-		self.nameBD = 'sqlite:///' + name
-		print self.nameBD
-		self.engine = create_engine(self.nameBD, echo = True)
-		#self.Base = declarative_base(bind = self.engine)
-		
 
 	def insertBD_Curso(self, name_Estabelecimento, name_Unidade, name_Curso, nivel_curso, l_anos):
+		"""
+
+		"""
 		s = self.create_session()
 		c = Curso(name_Curso = name_Curso, name_Unidade = name_Unidade, nivel_curso = nivel_curso, name_Estabelecimento= name_Estabelecimento)
 		for a in l_anos:
@@ -31,38 +27,57 @@ class Controller_DB():
 		except:
 			print 'ERROR_Commit'
 
-
 	def create_session(self):
+		"""
+
+		"""
 		Session = sessionmaker(bind = self.engine)
 		s = Session()
 		return s
-
 
 	##################################################################
 	#
 	#		QUERY
 	#
 	##################################################################
-	def query_name_cursos(self):
+	def query_cursos_info(self):
 		"""
 			Metodo Query Lista de Cursos
 		"""
 		s = self.create_session()
 		l = s.query(Curso).all()
 		return l
+	
+	def query_major(self):
+		"""
 
-	def query_nivel(self):
+		"""
 		s = self.create_session()
-		l = s.query().query(Curso.nivel_Curso).all()
-		pass
+		l = s.query(Curso.name_Curso, Curso.name_Estabelecimento, Curso.nivel_Curso).all()
+		res = []
+		for i in l:
+			s = i[0] + ' | ' + i[1] + ' | ' + i[2]
+			res.append(s)
 
+		return res
+
+	def query_degree(self):
+		"""
+
+		"""
+		s = self.create_session()
+		l = s.query(distinct(Curso.nivel_Curso)).all()
+		res = []
+		for i in l:
+			res.append(i[0])
+		return res
 
 	def query_curso_funcionamento(self):
 		"""
 			Anos em que os cursos estiveram em funcionamento
 		"""
 		s = self.create_session()
-		q_c = query_name_cursos()
+		q_c = self.query_cursos_info()
 		res=[]
 		for c in q_c:
 			curso_info=[]
@@ -79,17 +94,18 @@ class Controller_DB():
 			res.append(curso_info)
 		return res
 
-	def query_alunos_niveis(self):
+	def query_alunos_niveis(self, level = None):
 		"""
 			Contagem de alunos por nivel ano
 		"""
 		s = self.create_session()
+	
 		cont = s.query(Curso.nivel_Curso, Ano.ano, func.sum(Ano.numero_alunos)).join(Ano).filter(Curso.id == Ano.id_Curso).group_by(Curso.nivel_Curso, Ano.ano).all()
 		res=[]
-
 		for i in cont:
 			res.append((i[0].encode('utf-8'),i[1], i[2]))
 		return res
+		
 
 	def query_alunos_curso(self):
 		"""
@@ -109,21 +125,20 @@ class Controller_DB():
 				from Curso  join ano where curso.id == id_curso 
 				group by  ano.ano, curso.name_curso;
 		"""
-		s = self.self.create_session()
+		s = self.create_session()
 		cont = s.query(Curso.nivel_Curso, Ano.ano, func.count(Curso.id)).join(Ano).filter(Curso.id == Ano.id_Curso).group_by(Ano.ano, Curso.name_Curso).all()
 		res=[]
 		for i in cont:
 			res.append((i[0].encode('utf-8'),i[1], i[2]))
 		return res	
-
-if __name__ == '__main__':
-	ctr = Controller_DB()
-
+	def query_alunos_curso_plot(self, id_Curso):
+		"""
+			Contagem de alunos por curso ano  
+		"""
+		s = self.create_session()
+		cont = s.query(Curso.name_Curso, Ano.ano, func.sum(Ano.numero_alunos)).join(Ano).filter(Curso.id == id_Curso).group_by(Curso.id, Ano.ano).all()
+		res=[]
+		for i in cont:
+			res.append((i[0].encode('utf-8'),i[1], i[2]))
+		return res	
 	
-
-	l_anos=[('99',2),('23',324),('234',234)]
-	ctr.insertBD_Curso(name_Estabelecimento=unicode('uni', 'utf8'), 
-		name_Unidade = unicode('fac','utf8'), 
-		name_Curso = unicode('cur','utf8'), 
-		nivel_curso = unicode('niv', 'utf8'), 
-		l_anos = l_anos)
