@@ -65,14 +65,14 @@ class Controller_Xls(Model_Xls):
 		"""
 
 		"""
-		lista_anos=[]	
+		lista_Years=[]	
 		for c in (self.Dic_Year.keys()):
 			value =self.sheet.cell_value(row_index, c)
 			if isinstance(value, float):
-				anos=(self.Dic_Year[c], value)
-				lista_anos.append(anos)
+				Years=(self.Dic_Year[c], value)
+				lista_Years.append(Years)
 			else:
 				zero = 0.0
-				anos=(self.Dic_Year[c], zero)
-				lista_anos.append(anos)
-		return lista_anos		
+				Years=(self.Dic_Year[c], zero)
+				lista_Years.append(Years)
+		return lista_Years		

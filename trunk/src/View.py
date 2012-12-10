@@ -13,10 +13,10 @@ class MainFrame(wx.Frame):
         # begin wxGlade: MainFrame.__init__
         cdb = Controller_DB()
 
-        self.lst_cmb_CSV = ['anos letivos em que funcionaram cursos que incluem o termo computadores e informática',
-                    'quantidade de alunos que nestes se inscreveram ao longo dos anos',
-                    'quantidade de cursos por nível de formação ao longo dos anos',
-                    'quantidade de alunos por nível de formação ao longo dos anos']
+        self.lst_cmb_CSV = ['Years letivos em que funcionaram majors que incluem o termo computadores e informática',
+                    'quantidade de students que nestes se inscreveram ao longo dos Years',
+                    'quantidade de majors por nível de formação ao longo dos Years',
+                    'quantidade de students por nível de formação ao longo dos Years']
         try:
             self.lst_cmb_Major = cdb.query_major() 
             self.lst_cmb_Degree = cdb.query_degree()

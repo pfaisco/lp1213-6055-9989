@@ -17,41 +17,45 @@ class Controller_Main(object):
 		c_xls = Controller_Xls()
 		lista = c_xls.read_xls()
 		for l in lista:
-			c_D.insertBD_Curso(name_Estabelecimento=l[1], name_Unidade=l[2], name_Curso=l[0], nivel_curso=l[3], l_anos=l[4])
+			c_D.insertBD_Major(name_University=l[1], name_School=l[2], name_Major=l[0], degree=l[3], l_Years=l[4])
 		
 	def make_csv(self, event, cmbox):
 		C_D = Controller_DB()
 		query = cmbox.GetCurrentSelection()
 		if query == 0:
-			l = C_D.query_curso_funcionamento()
+			l = C_D.query_major_funcionamento()
 			C_S = Controller_stat('q1.csv')
 			C_S.write_to_csv(l)
 		elif query == 1:
-			l = C_D.query_alunos_niveis()
+			l = C_D.query_students_niveis()
 			C_S = Controller_stat('q2.csv')
 			C_S.write_to_csv(l)
 		elif query == 2:
-			l = C_D.query_alunos_curso()
+			l = C_D.query_students_major()
 			C_S = Controller_stat('q3.csv')
 			C_S.write_to_csv(l)
 		elif query == 3:
-			l = C_D.query_curso_nivel()
+			l = C_D.query_major_degree()
 			C_S = Controller_stat('q4.csv')
 			C_S.write_to_csv(l)
 
 	def plot_major(self, event, cmbox ):
 		id_major = cmbox.GetCurrentSelection()
+		name = cmbox.GetStringSelection()
+		"""		name.replace(' | ', '\n')
+		"""	
 		id_major = id_major + 1
 		
 		C_D = Controller_DB()
-		lista = C_D.query_alunos_curso_plot(id_major)
+		lista = C_D.query_students_major_plot(id_major)
 	
 		x=[]
 		y=[]
 		for i in lista:
 			x.append(i[1])
 			y.append(i[2])
-		C_p = Controller_Plot(lista[0][0][0],x, y)
+		
+		C_p = Controller_Plot(name ,x, y)
 		C_p.plot_data()
 		pass
 
@@ -59,7 +63,7 @@ class Controller_Main(object):
 		sel = cmbox.GetStringSelection()
 		
 		C_D = Controller_DB()
-		lista = C_D.query_alunos_niveis()
+		lista = C_D.query_students_niveis()
 		x=[]
 		y=[]
 

@@ -27,5 +27,5 @@ class Controller_Plot(Model_Plot):
 		pylab.xticks(range(len(self.x_list)), self.x_list, rotation=30)
 		pylab.plot(self.y_list, '-o')
 		pylab.title(self.title, fontsize=20)
-		pylab.xlabel('Anos', fontsize=20)
+		pylab.xlabel('Years', fontsize=20)
 		pylab.show()

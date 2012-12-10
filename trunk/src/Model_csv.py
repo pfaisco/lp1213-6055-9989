@@ -24,11 +24,11 @@ class Controller_stat(Model_stat):
 		"""
 			escreve os as estatisticas para um csv
 		"""
-		print 'writing....'
+		
 		writer = csv.writer(self.csvfile, delimiter=',')
-		print 'writing....'
+		
 		for i in l:
 			writer.writerow( i )
-			print 'writing....'
+			print i
 
 		self.csvfile.close()
