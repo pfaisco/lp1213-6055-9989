@@ -3,10 +3,14 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy import Float, String, Integer, distinct, func
 from sqlalchemy.orm import query, sessionmaker
-from Model_DB import Major, Year, modelDB
+from Model_DB import Major, Year, Model_DB
 import os
+"""
+	Module Controling database related issues
 
-class Controller_DB(modelDB):
+	
+"""
+class Controller_DB(Model_DB):
 	"""
 	Class Controller_DB Being part of MVC architechture has the 
 	Methods to control functions related with Database
@@ -103,9 +107,9 @@ class Controller_DB(modelDB):
 			res.append(major_info)
 		return res
 
-	def query_students_niveis(self, degree = None):
+	def query_students_degrees(self, degree = None):
 		"""
-			
+			query Number of students per year on each Degree
 		"""
 		s = self.create_session()
 	
@@ -118,7 +122,7 @@ class Controller_DB(modelDB):
 
 	def query_students_major(self):
 		"""
-			Contagem de students por major Year
+			query number of students per year per major
 		"""
 		s = self.create_session()
 		cont = s.query(Major.name_Major, Year.Year, func.sum(Year.number_students)).join(Year).filter(Major.id == Year.id_Major).group_by(Major.id, Year.Year).all()
@@ -127,12 +131,10 @@ class Controller_DB(modelDB):
 			res.append((i[0].encode('utf-8'),i[1], i[2]))
 		return res	
 		
-	def query_major_degree(self):
+	def query_major_degrees(self):
 		"""
-			Contagem de majors por degree Year
-			select Major.degree , Year.Year, count( major.id )
-				from Major  join Year where major.id == id_major 
-				group by  Year.Year, major.name_major;
+			Query number of majors per degree
+			
 		"""
 		s = self.create_session()
 		cont = s.query(Major.degree_Major, Year.Year, func.count(Major.id)).join(Year).filter(Major.id == Year.id_Major).group_by(Year.Year, Major.name_Major).all()
@@ -142,7 +144,8 @@ class Controller_DB(modelDB):
 		return res	
 	def query_students_major_plot(self, id_Major):
 		"""
-			Contagem de students por major Year  
+			query number of students  per year at major with id_Major
+
 		"""
 		s = self.create_session()
 		cont = s.query(Major.name_Major, Year.Year, func.sum(Year.number_students)).join(Year).filter(Major.id == id_Major).group_by(Major.id, Year.Year).all()

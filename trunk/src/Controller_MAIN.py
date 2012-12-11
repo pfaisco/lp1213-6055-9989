@@ -5,13 +5,19 @@ from Model_csv import Controller_stat
 from Model_plot import Controller_Plot
 import sys
 from View import MainFrame
-
 import wx
-
+"""
+	Control the main of the of application and launch the view
+"""
 class Controller_Main(object):
-	
+	"""
+		Class containing the main functions of app
+	"""
 	
 	def make_DB(self, event):
+		"""
+			Create Database when the buttun is clicked
+		"""
 		c_D = Controller_DB()
 		c_D.create_db()
 		c_xls = Controller_Xls()
@@ -20,6 +26,10 @@ class Controller_Main(object):
 			c_D.insertBD_Major(name_University=l[1], name_School=l[2], name_Major=l[0], degree=l[3], l_Years=l[4])
 		
 	def make_csv(self, event, cmbox):
+		"""
+			Receicves data from main window to make csv file
+			and create it
+		"""
 		C_D = Controller_DB()
 		query = cmbox.GetCurrentSelection()
 		if query == 0:
@@ -27,7 +37,7 @@ class Controller_Main(object):
 			C_S = Controller_stat('q1.csv')
 			C_S.write_to_csv(l)
 		elif query == 1:
-			l = C_D.query_students_niveis()
+			l = C_D.query_students_degrees()
 			C_S = Controller_stat('q2.csv')
 			C_S.write_to_csv(l)
 		elif query == 2:
@@ -40,10 +50,12 @@ class Controller_Main(object):
 			C_S.write_to_csv(l)
 
 	def plot_major(self, event, cmbox ):
+		"""
+			Plot the info about the major selected on combobox
+		"""
 		id_major = cmbox.GetCurrentSelection()
 		name = cmbox.GetStringSelection()
-		"""		name.replace(' | ', '\n')
-		"""	
+		
 		id_major = id_major + 1
 		
 		C_D = Controller_DB()
@@ -60,21 +72,24 @@ class Controller_Main(object):
 		pass
 
 	def plot_degree(self, event, cmbox ):
+		"""
+			Plot the info about the degree selected on combobox
+		"""
 		sel = cmbox.GetStringSelection()
-		
-		C_D = Controller_DB()
-		lista = C_D.query_students_niveis()
-		x=[]
-		y=[]
+		if sel != '':
+			C_D = Controller_DB()
+			lista = C_D.query_students_degrees()
+			x=[]
+			y=[]
 
-		for i in lista:
-			
-			if i[0].find(sel.encode('utf-8')) >= 0:
-				x.append(i[1])
-				y.append(i[2])
-		C_p = Controller_Plot(sel,x, y)
-		C_p.plot_data()
-		pass
+			for i in lista:
+				
+				if i[0].find(sel.encode('utf-8')) >= 0:
+					x.append(i[1])
+					y.append(i[2])
+			C_p = Controller_Plot(sel,x, y)
+			C_p.plot_data()
+			pass
 
 
 

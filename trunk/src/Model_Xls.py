@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
+"""
+	Model Xls stores data related to xls file reading
+"""
 class Model_Xls(object):
 	"""
-
+		ModelXls class that stores infomation about xls file reading 
 	"""
 	def __init__(self, file_name = "./Inscritos_2010-2011 (formato Excel xls).xls"):
 		"""
-
+			contructor of class model xls intialises the dictionary with columns index of year 
+			and data about xls file
 		"""
 		self.COL_YEAR_95_96 = 7
 		self.COL_YEAR_96_97 = 10

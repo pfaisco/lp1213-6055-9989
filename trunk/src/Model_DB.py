@@ -4,25 +4,27 @@ from sqlalchemy import create_engine
 from sqlalchemy import Column, Float, String, ForeignKey, Integer
 from sqlalchemy.orm import relationship, backref
 
-class modelDB(object):
+class Model_DB(object):
 	"""
-
+		Class Model_DB 
 	"""
 	
 	def __init__(self, name = 'sqlite:///./basedados.db'):
 		"""
-
+			Contructor of class Model_DB when an instance of this class is created
+			create a Base and an engine to connect to Database
 		"""
 		self.engine = create_engine(name, echo = True)
 		self.Base = declarative_base(bind = self.engine)
 		
 		
-m = modelDB()
+m = Model_DB()
 Base = m.Base
 
 class Major(Base):
 	"""
-
+		Class of table Major to sqlalchemy with info about 
+		Majors
 	"""
 	__tablename__='Major'
 	id = Column(Integer, primary_key = True)
@@ -33,7 +35,7 @@ class Major(Base):
 	
 	def __init__(self, name_Major, name_School, degree, name_University):
 		"""
-
+			Constructor of class tabel Major
 		"""
 		self.name_Major = name_Major
 		self.name_School = name_School
@@ -42,7 +44,8 @@ class Major(Base):
 	
 class Year(Base):
 	"""
-
+		Class of table Year to sqlalchemy containing info about 
+		each major of each year
 	"""
 	__tablename__='Year'
 	id=Column(Integer, primary_key=True)
@@ -53,7 +56,7 @@ class Year(Base):
 	
 	def __init__(self, number_students, Year_c ):
 		"""
-
+			Constructor of class table Year
 		"""
 		self.Year = Year_c
 		self.number_students = number_students

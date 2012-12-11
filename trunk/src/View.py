@@ -6,15 +6,19 @@ import wx
 
 # begin wxGlade: extracode
 # end wxGlade
-
+"""
+    Module View generated automatically by wx glade 
+    with the GUI 
+"""
 
 class MainFrame(wx.Frame):
     def __init__(self, *args, **kwds):
         # begin wxGlade: MainFrame.__init__
+
         cdb = Controller_DB()
 
-        self.lst_cmb_CSV = ['Years letivos em que funcionaram majors que incluem o termo computadores e informática',
-                    'quantidade de students que nestes se inscreveram ao longo dos Years',
+        self.lst_cmb_CSV = ['Anos letivos em que funcionaram majors que incluem o termo computadores e informática',
+                    'quantidade de estudante que nestes se inscreveram ao longo dos Years',
                     'quantidade de majors por nível de formação ao longo dos Years',
                     'quantidade de students por nível de formação ao longo dos Years']
         try:
@@ -26,15 +30,15 @@ class MainFrame(wx.Frame):
             print 'No such table!'
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
-        self.btnMakeDB = wx.Button(self, -1, "Import Data to Database")
+        self.btnMakeDB = wx.Button(self, -1, "Importa dados para Basedados")
         self.CSV = wx.StaticText(self, -1, "CSV")
         self.cmbCSV = wx.ComboBox(self, -1, choices=self.lst_cmb_CSV, style=wx.CB_READONLY)
-        self.btnCSV = wx.Button(self, -1, "Write")
+        self.btnCSV = wx.Button(self, -1, "Executar")
         self.Plot = wx.StaticText(self, -1, "Plot")
         self.cmbMajor = wx.ComboBox(self, -1, choices=self.lst_cmb_Major, style=wx.CB_READONLY)
-        self.btnPlotMajor = wx.Button(self, -1, "Plot")
+        self.btnPlotMajor = wx.Button(self, -1, "Executar")
         self.cmbDegree = wx.ComboBox(self, -1, choices=self.lst_cmb_Degree, style=wx.CB_READONLY)
-        self.btnPlotDegree = wx.Button(self, -1, "Plot")
+        self.btnPlotDegree = wx.Button(self, -1, "Executar")
 
         self.__set_properties()
         self.__do_layout()

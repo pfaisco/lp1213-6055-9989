@@ -4,11 +4,11 @@ from xlrd import open_workbook, empty_cell
 
 class Controller_Xls(Model_Xls):
 	"""
-
+		Controller Xls Reads info of Major from Xls file
 	"""
 	def open_Book(self):
 		"""
-
+			Opens the book from xls file
 		"""
 		wb = open_workbook( "./Inscritos_2010-2011 (formato Excel xls).xls", 'rb' )
 		s = wb.sheet_by_index( 30 )
@@ -16,7 +16,7 @@ class Controller_Xls(Model_Xls):
 
 	def read_xls(self):
 		"""
-
+			Read data from cells and return a list with information
 		"""
 		res_list=[]
 		for row_index in range(4, self.sheet.nrows):
@@ -37,6 +37,7 @@ class Controller_Xls(Model_Xls):
 
 	def get_Major_data(self, row_index):
 		"""
+			Get the a list with information of major name, university, faculty and degree
 
 		"""
 		for col_index in range(0,3):
@@ -56,14 +57,16 @@ class Controller_Xls(Model_Xls):
 
 	def check_comp(self, row_index):
 		"""
-
+			Check if the Major contains the words "Computadores" and "Informática"
+			retrun boolean if exist or not
 		"""
 
 		return self.l_major_data[0].find(u'Computadores') > 0 and self.l_major_data[0].find(u'Informática') > 0 	
 			
 	def get_year_data(self, row_index):
 		"""
-
+			Get the number of students per year of each Major
+			retrun a list with all years
 		"""
 		lista_Years=[]	
 		for c in (self.Dic_Year.keys()):
