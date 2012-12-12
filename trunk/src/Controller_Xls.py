@@ -29,7 +29,7 @@ class Controller_Xls(Model_Xls):
 				self.l_years_major = self.get_year_data(row_index)
 				self.l_major_data.append(self.l_years_major)
 				res_list.append( self.l_major_data)
-				print self.l_major_data
+				
 			self.l_major_data=[]
 			self.l_years_major=[]
 			

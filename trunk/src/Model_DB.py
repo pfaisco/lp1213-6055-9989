@@ -14,7 +14,7 @@ class Model_DB(object):
 			Contructor of class Model_DB when an instance of this class is created
 			create a Base and an engine to connect to Database
 		"""
-		self.engine = create_engine(name, echo = True)
+		self.engine = create_engine(name, echo = False)
 		self.Base = declarative_base(bind = self.engine)
 		
 		

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import pylab
 import matplotlib.ticker
+
 """
 	Module To plot
 	include Model and Controller to plot
@@ -26,7 +27,9 @@ class Controller_Plot(Model_Plot):
 			Plot the data stored on model plot
 		"""
 		pylab.xticks(range(len(self.x_list)), self.x_list, rotation=30)
+		pylab.subplot(111)
 		pylab.plot(self.y_list, '-o')
 		pylab.title(self.title, fontsize=20)
 		pylab.xlabel('Years', fontsize=20)
+		
 		pylab.show()

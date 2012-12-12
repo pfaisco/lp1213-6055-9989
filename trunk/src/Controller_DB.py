@@ -16,9 +16,7 @@ class Controller_DB(Model_DB):
 	Methods to control functions related with Database
 	"""
 	def create_db(self):
-		"""
-		Call Module_DB to create the Database file with the tabels
-		"""
+		""" Call Module_DB to create the Database file with the tabels """
 		os.system('python Model_DB.py')
 
 
@@ -55,7 +53,6 @@ class Controller_DB(Model_DB):
 	def query_majors_info(self):
 		"""
 			Do query to database returning info about Major
-
 		"""
 		s = self.create_session()
 		l = s.query(Major).all()
@@ -131,7 +128,7 @@ class Controller_DB(Model_DB):
 			res.append((i[0].encode('utf-8'),i[1], i[2]))
 		return res	
 		
-	def query_major_degrees(self):
+	def query_major_degree(self):
 		"""
 			Query number of majors per degree
 			
