@@ -24,21 +24,21 @@ def make_DB( event):
 	"""
 		Create Database when the buttun is clicked
 	"""
-	start_time = time.time()
+
 	c_D = Controller_DB()
 	c_D.create_db()
 	c_xls = Controller_Xls()
 	lista = c_xls.read_xls()
 	for l in lista:
 		c_D.insertBD_Major(name_University=l[1], name_School=l[2], name_Major=l[0], degree=l[3], l_Years=l[4])
-	print time.time() - start_time, "seconds"
+
 	
 def make_csv( event, cmbox):
 	"""
 		Receicves data from main window to make csv file
 		and create it
 	"""
-	start_time = time.time()
+
 	C_D = Controller_DB()
 	query = cmbox.GetCurrentSelection()
 	if query == 0:
@@ -57,13 +57,13 @@ def make_csv( event, cmbox):
 		l = C_D.query_major_degree()
 		C_S = Controller_stat('q4.csv')
 		C_S.write_to_csv(l)
-	print time.time() - start_time, "seconds"
+
 
 def plot_major( event, cmbox ):
 	"""
 		Plot the info about the major selected on combobox
 	"""
-	start_time = time.time()
+
 	id_major = cmbox.GetCurrentSelection()
 	name = cmbox.GetStringSelection()
 	
@@ -81,16 +81,14 @@ def plot_major( event, cmbox ):
 	C_p = Controller_Plot(name ,x, y)
 	
 	C_p.plot_data()
-	print time.time() - start_time, "seconds"
+
 	pass
 
 def plot_degree( event, cmbox ):
 	"""
 		Plot the info about the degree selected on combobox
 	"""
-	start_time = time.time()
 	
-
 	sel = cmbox.GetStringSelection()
 	title = sel.split(' | ')
 	if sel != '':
@@ -106,7 +104,7 @@ def plot_degree( event, cmbox ):
 				y.append(i[2])
 		C_p = Controller_Plot(title[0],x, y)
 		C_p.plot_data()
-	print time.time() - start_time, "seconds"
+
 	pass
 
 
